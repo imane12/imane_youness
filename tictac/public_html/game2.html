@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Tic Tac</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+
+            table {
+                margin-top: 100px;
+                width: 100%;
+                height: 500px;
+            }
+            table, tr, td {
+                border: black 1px solid;
+                border-collapse: collapse;
+            }
+            td {
+                width: 33%;
+                height: 33%;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+
+            <table>
+                <tr>
+                    <td onclick="get(this);" id="td11"></td>
+                    <td onclick="get(this);" id="td12"></td>
+                    <td onclick="get(this);" id="td13"></td>
+                </tr>
+                <tr>
+                    <td onclick="get(this);" id="td21"></td>
+                    <td onclick="get(this);" id="td22"></td>
+                    <td onclick="get(this);" id="td23"></td>
+                </tr>
+                <tr>
+                    <td onclick="get(this);" id="td31"></td>
+                    <td onclick="get(this);" id="td32"></td>
+                    <td onclick="get(this);" id="td33"></td>
+                </tr>
+            </table>
+
+        </div>
+        <script>
+            var count = 0;
+            var finish = false;
+            function get(td) {
+                if (!finish) {
+                    if (count < 9) {
+                        if (td.innerHTML == '') {
+                            count++;
+                            td.innerHTML = '<center>X</center>';
+                            td.style.backgroundColor = "red";
+                            var id = 'td22';
+                            var gain = true;
+                            var this_id = td.id;
+                            var this_r = this_id.substring(2, 3);
+                            var this_c = this_id.substring(3, 4);
+                            if (this_c == this_r) {
+                                if (document.getElementById('td11').innerHTML == '<center>X</center>' &&
+                                        document.getElementById('td22').innerHTML == '<center>X</center>' &&
+                                        document.getElementById('td33').innerHTML == '<center>X</center>') {
+                                    finish = true;
+                                    alert("Congratulation!!");
+                                    return;
+                                }
+                            }
+
+                            if (td.id == 'td13' || td.id == 'td31') {
+                                if (document.getElementById('td13').innerHTML == '<center>X</center>' &&
+                                        document.getElementById('td22').innerHTML == '<center>X</center>' &&
+                                        document.getElementById('td31').innerHTML == '<center>X</center>') {
+                                    finish = true;
+                                    alert("Congratulation!!");
+                                    return;
+                                }
+
+                            }
+                            for (var i = 1; i <= 3; i++) {
+                                if (document.getElementById('td' + this_r + i).innerHTML != '<center>X</center>') {
+                                    gain = false;
+                                    break;
+                                }
+                            }
+                            if (!gain) {
+                                gain = true;
+                                for (var i = 1; i <= 3; i++) {
+                                    if (document.getElementById('td' + i + this_c).innerHTML != '<center>X</center>') {
+                                        gain = false;
+                                        break;
+                                    }
+                                }
+                                if (!gain) {
+                                    if (count < 8) {
+                                        var nb_x = 0;
+                                        for (var i = 1; i <= 3; i++) {
+                                            if (document.getElementById('td' + i + this_c).innerHTML == '<center>X</center>') {
+                                                nb_x++;
+                                            } else
+                                                id = 'td' + i + this_c;
+                                        }
+                                        if (nb_x == 2 && document.getElementById(id).innerHTML == "") {
+                                            count++;
+                                            document.getElementById(id).innerHTML = "<center>O</center>";
+                                            document.getElementById(id).style.backgroundColor = "green";
+                                        } else {
+                                            nb_x = 0;
+                                            for (var i = 1; i <= 3; i++) {
+                                                if (document.getElementById('td' + this_r + i).innerHTML == '<center>X</center>') {
+                                                    nb_x++;
+                                                } else
+                                                    id = 'td' + this_r + i;
+                                            }
+                                            if (nb_x == 2 && document.getElementById(id).innerHTML == "") {
+                                                count++;
+                                                document.getElementById(id).innerHTML = "<center>O</center>";
+                                                document.getElementById(id).style.backgroundColor = "green";
+                                            } else {
+                                                while (document.getElementById(id).innerHTML != '') {
+                                                    var c = Math.floor(Math.random() * (3) + 1);
+                                                    var r = Math.floor(Math.random() * (3) + 1);
+                                                    id = 'td' + r + c;
+                                                }
+                                                count++;
+                                                document.getElementById(id).innerHTML = "<center>O</center>";
+                                                document.getElementById(id).style.backgroundColor = "green";
+                                            }
+
+                                        }
+
+                                        if (c == r) {
+                                            if (document.getElementById('td11').innerHTML == '<center>O</center>' &&
+                                                    document.getElementById('td22').innerHTML == '<center>O</center>' &&
+                                                    document.getElementById('td33').innerHTML == '<center>O</center>') {
+                                                finish = true;
+                                                alert("Game over!!");
+                                                return;
+                                            }
+                                        }
+                                        if (id == 'td13' || id == 'td31') {
+                                            if (document.getElementById('td13').innerHTML == '<center>O</center>' &&
+                                                    document.getElementById('td22').innerHTML == '<center>O</center>' &&
+                                                    document.getElementById('td31').innerHTML == '<center>O</center>') {
+                                                finish = true;
+                                                alert("Game over!!");
+                                                return;
+                                            }
+
+                                        }
+                                        var fail = true;
+                                        for (var i = 1; i <= 3; i++) {
+                                            if (document.getElementById('td' + r + i).innerHTML != '<center>O</center>') {
+                                                fail = false;
+                                                break;
+                                            }
+                                        }
+                                        if (!fail) {
+                                            fail = true;
+                                            for (var i = 1; i <= 3; i++) {
+                                                if (document.getElementById('td' + i + c).innerHTML != '<center>O</center>') {
+                                                    fail = false;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (fail) {
+                                            finish = true;
+                                            alert("Game over!!");
+                                            return;
+                                        }
+
+
+
+
+
+                                    } else {
+                                        finish = true;
+                                        alert("Congratulation!!!");
+                                    }
+                                }
+                            } else {
+                                finish = true;
+                                alert("Congratulation!!!");
+                            }
+
+
+
+                        }
+
+                    }
+                }
+            }
+        </script>
+    </body>
+
+</html>
